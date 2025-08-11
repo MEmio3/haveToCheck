@@ -1,0 +1,126 @@
+Task1-
+
+  private int hashFunction( Integer key )
+    {
+        // TO DO
+        if (key ==null) 
+        {
+            return -1;           
+        }
+        int length=ht.length;
+        int hashVal =(key+3)%length;  
+        if (hashVal<0) 
+        {
+            hashVal=(hashVal+length)%length;
+        }
+        return hashVal;
+    }
+
+public void remove(Integer key) 
+    {
+        if (key==null) 
+        {
+            return;             
+        }
+        for (int i=0; i<ht.length;i++) 
+        {
+            for (PairNode cur=ht[i], prev=null;cur !=null;cur=cur.next,prev=cur) 
+            {
+                if (cur.key.equals(key)) 
+                {
+                    if (prev== null) 
+                    {
+                        ht[i] =cur.next;
+                    } 
+                    else 
+                    {
+                        prev.next=cur.next;
+                    }
+                    break;
+                }  
+            }
+        }
+    }
+
+Task2-
+
+public static int diamondCount(Stack stack, String str) 
+{
+    int count = 0;
+    for (int i = 0; i < str.length(); i++) 
+    {
+        char c=str.charAt(i);
+
+        if (c=='<') 
+        {
+            stack.push("<");
+        } 
+        else if (c=='>') 
+        {
+            if (!stack.isEmpty()) 
+            {
+                Object Telem=stack.pop();
+                Stack temp=new Stack();
+                 for (;!stack.isEmpty();) 
+                {
+                    temp.push(stack.pop());
+                }
+                for (;!temp.isEmpty();) 
+                {
+                    stack.push(temp.pop());
+                }
+                if (Telem.equals("<")) 
+                {
+                    count++;
+                } 
+                else 
+                {
+                    stack.push(Telem);
+                }
+            }
+        }
+    }
+
+    return count;
+}
+
+Task-3
+
+public static String removeConsecDups(String word) 
+{
+    LinkedListQueue q=new LinkedListQueue();
+    for (int i=0;i< word.length();i ++) 
+    {
+        char c =word.charAt(i);
+        String current=""+c;
+        if (q.isEmpty()) 
+        {
+            q.enqueue(current);
+        } 
+        else 
+        {
+            LinkedListQueue temp=new LinkedListQueue();
+            Object last= null;
+            for (;q.isEmpty() !=true;) 
+            {
+                Object elem=q.dequeue();
+                last=elem;
+                temp.enqueue(elem);
+            }
+            for(;!temp.isEmpty();) 
+            {
+                Object item =temp.dequeue();
+                q.enqueue(item);
+            }
+            if (!last.equals(current)) {
+                q.enqueue(current);
+            }
+        }
+    }
+    String result="";
+    while (q.isEmpty()!= true) 
+    {
+        result=result+q.dequeue();
+    }
+    return result;
+}
